@@ -1,0 +1,69 @@
+---
+import StaffCard from './StaffCard.astro';
+
+interface Props {
+  title: string;
+  staffs: Array<{
+    title: string;
+    description: string;
+    href: string;
+    color: string;
+  }>;
+}
+
+const { title, staffs } = Astro.props;
+---
+
+<section>
+  <h2>
+    {title}
+  </h2>
+  <div class="staff-cards-container">
+    {
+      staffs.map((s) => {
+        return (
+          <StaffCard
+            title={s.title}
+            description={s.description}
+            href={s.description}
+            color={s.color}
+          />
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  section {
+    position: relative;
+    width: 100%;
+    max-width: 85rem;
+    padding-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  section h2 {
+    text-align: center;
+    font-family: var(--font-tiempos-headline);
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #323232;
+    max-width: 20rem;
+  }
+
+  .staff-cards-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 20rem);
+    grid-gap: 1.5rem;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 700px) {
+    max-width: none;
+  }
+</style>

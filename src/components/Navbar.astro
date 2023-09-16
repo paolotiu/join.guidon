@@ -1,6 +1,43 @@
 ---
-
+import Button from './Button.astro';
 ---
+
+<nav id="navbar">
+  <div class="nav-bg"></div>
+  <div class="nav-inner">
+    <div class="nav-items">
+      <a class="nav-logo"> </a>
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/">About</a>
+      <div class="nav-dropdown">
+        <button>
+          Clusters
+          <img src="/icons/drop-down.svg" role="presentation" />
+
+          <div class="nav-dropdown-bridge"></div>
+          <div class="nav-dropdown-tooltip">
+            <a>
+              Writing Cluster
+              <img src="/icons/arrow-right.svg" role="presentation" />
+            </a>
+
+            <a>
+              Organizational Cluster
+              <img src="/icons/arrow-right.svg" role="presentation" />
+            </a>
+            <a>
+              Design Cluster
+              <img src="/icons/arrow-right.svg" role="presentation" />
+            </a>
+          </div>
+        </button>
+      </div>
+    </div>
+    <a id="nav-apply-now" style="opacity: 0; transition: opacity 200ms;">
+      <Button>Apply Now</Button>
+    </a>
+  </div>
+</nav>
 
 <script>
   import { computePosition, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -38,40 +75,32 @@
   ].forEach(([event, listener]) => {
     parent.addEventListener(event as any, listener as any);
   });
+
+  const main = document.querySelector('.hero-section') as HTMLElement;
+  const navbar = document.querySelector('#navbar') as HTMLElement;
+  const navBg = document.querySelector('.nav-bg') as HTMLElement;
+  const applyButtonNav = document.querySelector('#nav-apply-now') as HTMLElement;
+
+  const observer = new IntersectionObserver(
+    (e) => {
+      if (e[0].isIntersecting) {
+        navBg.style.opacity = '0';
+
+        navBg.style.backgroundColor = 'transparent';
+        applyButtonNav.style.opacity = '0';
+      } else {
+        navBg.style.opacity = '1';
+        navBg.style.backgroundColor = 'rgb(28, 68, 128)';
+        applyButtonNav.style.opacity = '1';
+      }
+    },
+    {
+      rootMargin: `${navbar.offsetHeight * -1}px`,
+    }
+  );
+
+  observer.observe(main);
 </script>
-<nav>
-  <div class="nav-bg"></div>
-  <div class="nav-inner">
-    <div class="nav-items">
-      <a class="nav-logo"> </a>
-      <a class="nav-link" href="/">Home</a>
-      <a class="nav-link" href="/">About</a>
-      <div class="nav-dropdown">
-        <button>
-          Clusters
-          <img src="/icons/drop-down.svg" role="presentation" />
-
-          <div class="nav-dropdown-bridge"></div>
-          <div class="nav-dropdown-tooltip">
-            <a>
-              Writing Cluster
-              <img src="/icons/arrow-right.svg" role="presentation" />
-            </a>
-
-            <a>
-              Organizational Cluster
-              <img src="/icons/arrow-right.svg" role="presentation" />
-            </a>
-            <a>
-              Design Cluster
-              <img src="/icons/arrow-right.svg" role="presentation" />
-            </a>
-          </div>
-        </button>
-      </div>
-    </div>
-  </div>
-</nav>
 
 <style>
   nav {

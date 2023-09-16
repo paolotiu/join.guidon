@@ -1,3 +1,9 @@
+---
+import ClusterSection from './ClusterSection.astro';
+
+import clustersData from '../data/clusters.json';
+---
+
 <main>
   <div class="main-message">
     <section>
@@ -17,6 +23,11 @@
         allow="autoplay"></iframe>
     </section>
   </div>
+  {
+    Object.entries(clustersData.clusters).map(([_, cluster]) => {
+      return <ClusterSection title={cluster.title} staffs={cluster.staffs} />;
+    })
+  }
 </main>
 
 <style>
