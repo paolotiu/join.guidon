@@ -1,0 +1,99 @@
+---
+import Button from './Button.astro';
+---
+
+<script>
+  const bgImages = document.querySelectorAll('.hero-img-cover') as NodeListOf<HTMLImageElement>;
+
+  // Start at 1 because the first image is already visible
+  let counter = 1;
+  function toggleOpacity() {
+    bgImages.forEach((img) => {
+      img.style.opacity = '0';
+    });
+
+    bgImages[counter].style.opacity = '1';
+
+    counter = (counter + 1) % bgImages.length;
+  }
+
+  setInterval(toggleOpacity, 3000);
+</script>
+
+<section class="hero-section">
+  <img id="hi-0" src="/hero-cover/bg0.jpg" class="hero-img-cover" />
+  <img id="hi-1" src="/hero-cover/bg1.jpg" style="opacity: 0;" class="hero-img-cover" />
+  <img id="hi-2" src="/hero-cover/bg2.jpg" style="opacity: 0;" class="hero-img-cover" />
+  <img id="hi-3" src="/hero-cover/bg3.jpg" style="opacity: 0;" class="hero-img-cover" />
+  <img id="hi-4" src="/hero-cover/bg4.jpg" style="opacity: 0;" class="hero-img-cover" />
+  <img id="hi-5" src="/hero-cover/bg5.jpg" style="opacity: 0;" class="hero-img-cover" />
+
+  <div class="hero-bg"></div>
+  <div class="hero-section-text">
+    <h1>Stand with the Truth.</h1>
+
+    <p>The GUIDON COA RecWeek 2023: Dreamlane <br /> August 28 to September 8</p>
+    <Button>APPLY NOW</Button>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: black;
+  }
+
+  .hero-section-text {
+    z-index: 1;
+    flex-direction: column;
+    row-gap: 1rem;
+    text-align: center;
+    width: 20rem;
+  }
+
+  .hero-section-text h1 {
+    padding-top: 2rem;
+    font-size: 2.5rem;
+    font-family: var(--font-freight-text);
+    font-weight: 700;
+  }
+
+  .hero-section-text p {
+    font-family: var(--font-atlas-grotesk);
+    font-size: 0.875rem;
+    font-weight: 100;
+  }
+
+  @media (min-width: 700px) {
+    .hero-section > .hero-section-text {
+      row-gap: 1.5rem;
+      width: 41.5rem;
+    }
+
+    .hero-section-text h1 {
+      font-size: 5rem;
+      line-height: 0.8;
+    }
+  }
+
+  .hero-img-cover {
+    position: absolute;
+    transition: opacity 3s;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-bg {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    background-color: rgba(0, 14, 45, 0.7);
+  }
+</style>
