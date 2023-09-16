@@ -1,0 +1,202 @@
+---
+
+---
+
+<script>
+  import { computePosition, flip, shift, offset, arrow } from '@floating-ui/dom';
+
+  const parent = document.querySelector('.nav-dropdown') as HTMLButtonElement;
+  const tooltip = document.querySelector('.nav-dropdown-tooltip') as HTMLDivElement;
+  // const arrowElement = document.querySelector('#arrow') as HTMLDivElement;
+
+  function update() {
+    computePosition(parent, tooltip, {
+      placement: 'bottom',
+      middleware: [offset(10), flip(), shift({ padding: 5 })],
+    }).then(({ x, y, placement, middlewareData }) => {
+      Object.assign(tooltip.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      });
+    });
+  }
+
+  function showTooltip() {
+    tooltip.style.display = 'block';
+    update();
+  }
+
+  function hideTooltip() {
+    tooltip.style.display = '';
+  }
+
+  [
+    ['mouseenter', showTooltip],
+    ['mouseleave', hideTooltip],
+    ['focus', showTooltip],
+    ['blur', hideTooltip],
+  ].forEach(([event, listener]) => {
+    parent.addEventListener(event as any, listener as any);
+  });
+</script>
+<nav>
+  <div class="nav-bg"></div>
+  <div class="nav-inner">
+    <div class="nav-items">
+      <a class="nav-logo"> </a>
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/">About</a>
+      <div class="nav-dropdown">
+        <button>
+          Clusters
+          <img src="/icons/drop-down.svg" role="presentation" />
+
+          <div class="nav-dropdown-bridge"></div>
+          <div class="nav-dropdown-tooltip">
+            <a>
+              Writing Cluster
+              <img src="/icons/arrow-right.svg" role="presentation" />
+            </a>
+
+            <a>
+              Organizational Cluster
+              <img src="/icons/arrow-right.svg" role="presentation" />
+            </a>
+            <a>
+              Design Cluster
+              <img src="/icons/arrow-right.svg" role="presentation" />
+            </a>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    width: 100%;
+    height: 5.5rem;
+    top: 0;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  nav > .nav-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -9;
+    background-color: var(--primary-guidon-main);
+    transition: opacity 0.5s;
+    opacity: 0;
+  }
+  nav .nav-inner {
+    padding: 1rem 0;
+    width: 22rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  nav .nav-items {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav-logo {
+    display: block;
+    background-image: url('/logos/logo-white.svg');
+    background-size: cover;
+    aspect-ratio: 612/662;
+    width: 3rem;
+  }
+
+  .nav-dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-link,
+  .nav-dropdown button {
+    display: block;
+    font-family: var(--font-chivo);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.875rem;
+    padding: 0.25rem;
+    padding-inline: 0;
+    border-bottom: 2px solid #ffffff00;
+  }
+
+  .nav-link:hover,
+  .nav-dropdown:hover button {
+    border-bottom: 2px solid #fff !important;
+  }
+
+  .nav-dropdown img {
+    display: inline;
+  }
+
+  .nav-dropdown-tooltip {
+    display: none;
+    z-index: 9;
+    position: absolute;
+    top: 2.25rem;
+    width: 15rem;
+    background-color: #fff;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-dropdown-tooltip a {
+    color: #000;
+    font-family: var(--font-chivo);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .nav-dropdown-bridge {
+    position: absolute;
+    width: 8rem;
+    height: 2rem;
+    top: 1rem;
+  }
+
+  @media (min-width: 700px) {
+    nav .nav-inner {
+      width: 41.5rem;
+    }
+
+    nav .nav-items {
+      gap: 2rem;
+    }
+    .nav-logo {
+      background: url('/logos/logo-long-white.svg');
+      background-size: cover;
+      aspect-ratio: 3800/500;
+      margin-bottom: 0.8rem;
+      width: 13rem;
+    }
+  }
+
+  @media (min-width: 1240px) {
+    nav .nav-inner {
+      width: 63rem;
+    }
+  }
+</style>
